@@ -23,11 +23,21 @@ namespace Todo.Controller {
         }
 
         [HttpPatch("/patch/{id}")]
-        public TodoModel post([FromServices] AppDbContext Context,[FromBody] TodoModel todo, [FromRoute] int id) {
+        public TodoModel patch([FromServices] AppDbContext Context,[FromBody] TodoModel todo, [FromRoute] int id) {
             
             var findId = Context.todos.Where(x => x.id == id).FirstOrDefault();
             findId.done = todo.done;
             Context.todos.Update(findId);
+            Context.SaveChanges();
+
+            return findId;
+        }
+
+        [HttpDelete("/delete/{id}")]
+        public TodoModel delete([FromServices] AppDbContext Context, [FromRoute] int id) {
+            
+            var findId = Context.todos.Where(x => x.id == id).FirstOrDefault();
+            Context.todos.Remove(findId);
             Context.SaveChanges();
 
             return findId;
