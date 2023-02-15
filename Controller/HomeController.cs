@@ -15,7 +15,6 @@ namespace Todo.Controller {
         }
         [HttpGet("/list")]
         public List<TodoModel> get() {
-            Console.WriteLine("aaaaa");
             return  Context.todos.ToList();
         }
 
@@ -25,21 +24,18 @@ namespace Todo.Controller {
             Context.todos.Add(todo);
             Context.SaveChanges();
 
-            // return todo;
-
             return todo;
         }
 
         [HttpPatch("/patch/{id}")]
         public TodoModel post([FromBody] TodoModel todo, [FromRoute] int id) {
             
-            
-            Context.todos.Entry(todo);
+            var findId = Context.todos.Where(x => x.id == id).FirstOrDefault();
+            findId.done = todo.done;
+            Context.todos.Update(findId);
             Context.SaveChanges();
 
-            // return todo;
-
-            return todo;
+            return findId;
         }
     }
 }
