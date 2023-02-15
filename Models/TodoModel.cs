@@ -1,5 +1,8 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Todo.Model {
 
+    [Table("todos")]
     public class TodoModel {
         public int id { get; set; }
 

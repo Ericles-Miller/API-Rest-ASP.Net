@@ -7,6 +7,6 @@ namespace Todo.Data {
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder options) 
-            => options.UseSqlite("DataSource=app.db;Cache=shared");
+            => options.UseSqlServer("Server=localhost,1433;Database=App;User ID=sa;Password=@Haus3521#;trustServerCertificate=true;");
     }
 }
