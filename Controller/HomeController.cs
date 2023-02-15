@@ -7,20 +7,15 @@ namespace Todo.Controller {
     [ApiController]
     //[Route("home")]
     public class HomeController: ControllerBase {
-        private readonly AppDbContext Context;
-
-        public HomeController(AppDbContext context)
-        {
-            Context = context;   
-        }
+        
         [HttpGet("/list")]
-        public List<TodoModel> get() {
+        public List<TodoModel> get([FromServices] AppDbContext Context) {
             return  Context.todos.ToList();
         }
 
 
         [HttpPost("/post")]
-        public TodoModel post([FromBody] TodoModel todo) {
+        public TodoModel post([FromServices] AppDbContext Context,[FromBody] TodoModel todo) {
             Context.todos.Add(todo);
             Context.SaveChanges();
 
@@ -28,7 +23,7 @@ namespace Todo.Controller {
         }
 
         [HttpPatch("/patch/{id}")]
-        public TodoModel post([FromBody] TodoModel todo, [FromRoute] int id) {
+        public TodoModel post([FromServices] AppDbContext Context,[FromBody] TodoModel todo, [FromRoute] int id) {
             
             var findId = Context.todos.Where(x => x.id == id).FirstOrDefault();
             findId.done = todo.done;
